@@ -14,11 +14,13 @@ import android.widget.Toast;
 public class Counter extends AppCompatActivity {
     TextView tv1;
     ImageButton back;
+    private Vibrator v;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter);
+        v = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         tv1 = (TextView) findViewById(R.id.tv1);
         tv1.setText("0");
         back = (ImageButton) findViewById(R.id.back);
@@ -42,6 +44,7 @@ public class Counter extends AppCompatActivity {
     }
 
     boolean doubleBackToExitPressedOnce = false;
+
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -54,7 +57,7 @@ public class Counter extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
@@ -73,56 +76,30 @@ public class Counter extends AppCompatActivity {
         }
     }
 
-    public void goBack(View view){
-        finish();
-    }
-
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (MainActivity.maxCount == 0) {
-            if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-                tv1.setText("" + String.valueOf(++MainActivity.counter));
-                return true;
-            }
-            if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-                tv1.setText("" + String.valueOf(++MainActivity.counter));
-                return true;
-            } else {
-                return super.onKeyDown(keyCode, event);
-            }
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            countItUp();
+            return true;
+        }
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            countItUp();
+            return true;
         } else {
-            Vibrator v = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
-
-            if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-                tv1.setText("" + String.valueOf(++MainActivity.counter));
-                if (MainActivity.counter == MainActivity.maxCount - 3) {
-                    v.vibrate(200);
-                } else if (MainActivity.counter == MainActivity.maxCount - 2) {
-                    v.vibrate(200);
-                } else if (MainActivity.counter == MainActivity.maxCount - 1) {
-                    v.vibrate(200);
-                } else if (MainActivity.counter == MainActivity.maxCount) {
-                    v.vibrate(750);
-                }
-                return true;
-            }
-            if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-                tv1.setText("" + String.valueOf(++MainActivity.counter));
-
-                if (MainActivity.counter == MainActivity.maxCount - 3) {
-                    v.vibrate(200);
-                } else if (MainActivity.counter == MainActivity.maxCount - 2) {
-                    v.vibrate(200);
-                } else if (MainActivity.counter == MainActivity.maxCount - 1) {
-                    v.vibrate(200);
-                } else if (MainActivity.counter == MainActivity.maxCount) {
-                    v.vibrate(750);
-                }
-                return true;
-            } else {
-                return super.onKeyDown(keyCode, event);
-            }
+            return super.onKeyDown(keyCode, event);
         }
     }
 
+    private void countItUp() {
+        tv1.setText(String.valueOf(++MainActivity.counter));
+        if (MainActivity.counter == MainActivity.maxCount - 3) {
+            v.vibrate(200);
+        } else if (MainActivity.counter == MainActivity.maxCount - 2) {
+            v.vibrate(200);
+        } else if (MainActivity.counter == MainActivity.maxCount - 1) {
+            v.vibrate(200);
+        } else if (MainActivity.counter == MainActivity.maxCount) {
+            v.vibrate(750);
+        }
+    }
 }
