@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -13,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.Objects;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     static int counter = 0;
     TextView tv2;
     String count = "";
@@ -54,8 +55,11 @@ public class MainActivity extends Activity {
                 } else {
                     maxCount = Integer.parseInt(count);
                 }
-                if (maxCount == 0)
+                if (maxCount == 0) {
                     tv2.setText("JUST DO IT!!!");
+                } else {
+                    tv2.setText("You're going to do " + maxCount + " crunches.");
+                }
 
                 ed1.setText("0");
                 ed1.clearFocus();
